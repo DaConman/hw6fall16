@@ -1,6 +1,6 @@
 class Movie < ActiveRecord::Base
   def self.all_ratings
-    %w(G PG PG-13 NC-17 R)
+    %w(G PG PG-13 NC-17 R NR)
   end
   
   class Movie::InvalidKeyError < StandardError ; end
@@ -19,7 +19,7 @@ class Movie < ActiveRecord::Base
           rating = uscountry["certification"]
           date = uscountry["release_date"]
         else
-          rating = "Not Rated"
+          rating = "NR"
           date = matching_movie.release_date
         end
         movies.push({tmdb_id: matching_movie.id, title: matching_movie.title, rating: rating, release_date: date})
