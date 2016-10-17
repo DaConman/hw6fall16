@@ -1,0 +1,12 @@
+#spec/fixtures/countries.yml
+  country1:
+    certification: "R"
+    iso_3166_1: "US"
+    primary: false
+    release_date: "2000-05-01"
+    
+  country2:
+    certification: "15"
+    iso_3166_1: "GB"
+    primary: false
+    release_date: "2000-05-12"

@@ -62,7 +62,21 @@ class MoviesController < ApplicationController
   end
   
   def search_tmdb
-    @movies=Movie.find_in_tmdb(params[:search_terms])
+    if ((params[:search_terms] == "") || params[:search_terms].nil?) 
+      flash[:notice] = "Invalid search term"
+      redirect_to movies_path
+    else
+      @titlebar = params[:search_terms]
+      @movies=Movie.find_in_tmdb(params[:search_terms])
+      if @movies.empty?
+        flash[:notice] = "No matching movies were found on TMDb"
+        redirect_to movies_path
+      end
+    end
+  end
+
+  def add_tmdb
+    #for returned movies, call new movie for each
   end
 
 end

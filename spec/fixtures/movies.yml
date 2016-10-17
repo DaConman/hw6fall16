@@ -1,0 +1,12 @@
+#spec/fixtures/movies.yml:
+  milk_movie:
+    id: 1
+    title: Milk
+    rating: R #because milk is so bad
+    release_date: 2008-11-26
+    
+  other_movie:
+    id: 2
+    title: Other
+    rating: PG
+    release_date: 2008-09-07
