@@ -3,11 +3,16 @@ class Movie < ActiveRecord::Base
     %w(G PG PG-13 NC-17 R NR)
   end
   
+  def self.Tmdbkey
+    return "f4702b08c0ac6ea5b51425788bb26562"
+  end
+  
   class Movie::InvalidKeyError < StandardError ; end
   
   def self.find_in_tmdb(string)
     begin
       movies = Array.new
+      Tmdb::Api.key(Movie.Tmdbkey)
       matching_movies = Tmdb::Movie.find(string)
       if matching_movies.empty?
         return movies
@@ -34,7 +39,17 @@ class Movie < ActiveRecord::Base
     end
   end
 
-  def self.create_from_tmdb
-    #pending
+  def self.create_from_tmdb(tmdb_id)
+    detail = Tmdb::Movie.detail(tmdb_id)
+    countries = Tmdb::Movie.releases(tmdb_id).fetch("countries")
+    uscountry = countries.find {|country| country["iso_3166_1"] == "US"}
+    unless(uscountry.nil?)
+      rating = uscountry["certification"]
+      date = uscountry["release_date"]
+    else
+      rating = "NR"
+      date = detail[release_date]
+    end
+    self.create!({title: detail.fetch("title"), rating: rating, description: detail.fetch("overview"), release_date: date})
   end
 end
